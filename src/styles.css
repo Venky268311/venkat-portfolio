@@ -260,3 +260,12 @@ h1{
   display:flex;
   justify-content:center;
 }
+
+@media (max-width: 768px) {
+  .main{
+    padding: 30px;
+  }
+  .hero{
+    padding: 0px;
+  }
+}
