@@ -4,7 +4,7 @@ const LINKS = {
   email: "ramana268311@gmail.com",
   phone: "+1 (901) 515-0503",
   location: "Pittsburgh, PA",
-  github: "https://github.com/your-github",      // <- update
+  github: "https://github.com/Venky268311",      // <- update
   linkedin: "https://www.linkedin.com/in/venkat-ramana-mankena/", // <- update
   resumeUrl: "/VENKAT_RAMANA_MANKENA_SE_1.pdf",  // place PDF in /public
 };
