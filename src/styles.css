@@ -30,12 +30,12 @@ a{color:inherit}
   z-index:20;
 }
 .navInner{
-  max-width:1100px;
+  /* max-width:1100px; */
   margin:0 auto;
   padding:14px 18px;
   display:flex;
   align-items:center;
-  justify-content:space-between;
+  justify-content:space-evenly;
   gap:14px;
 }
 .brand{display:flex; align-items:center; gap:10px;}
