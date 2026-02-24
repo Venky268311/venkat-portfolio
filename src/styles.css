@@ -57,6 +57,30 @@ a{color:inherit}
 }
 .navLinks a:hover{background:rgba(255,255,255,0.06); color:var(--text);}
 
+.menuToggle{
+  display:none;
+  width:42px;
+  height:42px;
+  padding:0;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  color:var(--text);
+  font-size:18px;
+  line-height:1;
+  appearance:none;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+.menuToggle svg{
+  width:20px;
+  height:20px;
+  color:var(--text);
+  display:block;
+  flex-shrink:0;
+}
+
 .navCtas{display:flex; gap:10px; align-items:center;}
 
 .btn{
@@ -93,7 +117,28 @@ a{color:inherit}
 }
 @media (max-width: 900px){
   .hero{grid-template-columns:1fr;}
-  .navLinks{display:none;}
+  .navInner{
+    position:relative;
+    flex-wrap:wrap;
+    justify-content:space-between;
+  }
+  .menuToggle{display:inline-flex;}
+  .navLinks{
+    display:none;
+    width:100%;
+    flex-direction:column;
+    gap:8px;
+    padding:10px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    background: rgba(12,23,45,0.96);
+  }
+  .navLinks.open{display:flex;}
+  .navLinks a{
+    width:100%;
+    padding:10px 12px;
+  }
+  .navCtas{display:none;}
 }
 
 .pill{

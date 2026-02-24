@@ -1,11 +1,12 @@
 import "./styles.css";
+import { useState } from "react";
 import {FaUser, 
 FaCode, 
 FaProjectDiagram, 
 FaBriefcase, 
 FaGraduationCap, 
 FaTrophy, 
-FaEnvelopeOpenText, FaPhone, FaEnvelope, FaLinkedin, FaFileDownload, FaMapMarkerAlt } from "react-icons/fa";
+FaEnvelopeOpenText, FaPhone, FaEnvelope, FaLinkedin, FaFileDownload, FaMapMarkerAlt, FaBars, FaTimes } from "react-icons/fa";
 
 
 const LINKS = {
@@ -176,6 +177,10 @@ function Card({ title, meta, children }) {
 }
 
 export default function App() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
   return (
     <div className="page">
       {/* NAV */}
@@ -189,14 +194,25 @@ export default function App() {
             </div>
           </div>
 
-          <nav className="navLinks">
-            <a href="#about">About</a>
-            <a href="#skills">Skills</a>
-            <a href="#education">Education</a>
-            <a href="#projects">Projects</a>
-            <a href="#experience">Experience</a>
-            <a href="#awards">Awards</a>
-            <a href="#contact">Contact</a>
+          <button
+            className="menuToggle"
+            type="button"
+            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="primary-navigation"
+          >
+            {isMobileMenuOpen ? <FaTimes style={{fontSize:"15px",color:"red"}} /> : <FaBars />}
+          </button>
+
+          <nav id="primary-navigation" className={`navLinks ${isMobileMenuOpen ? "open" : ""}`}>
+            <a href="#about" onClick={closeMobileMenu}>About</a>
+            <a href="#skills" onClick={closeMobileMenu}>Skills</a>
+            <a href="#education" onClick={closeMobileMenu}>Education</a>
+            <a href="#projects" onClick={closeMobileMenu}>Projects</a>
+            <a href="#experience" onClick={closeMobileMenu}>Experience</a>
+            <a href="#awards" onClick={closeMobileMenu}>Awards</a>
+            <a href="#contact" onClick={closeMobileMenu}>Contact</a>
           </nav>
 
           <div className="navCtas">
