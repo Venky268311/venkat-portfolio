@@ -1,5 +1,6 @@
 import "./styles.css";
 import { useState } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import {FaUser, 
 FaCode, 
 FaProjectDiagram, 
@@ -434,6 +435,7 @@ I also have hands-on experience with AWS cloud services, CI/CD pipelines, and De
         <footer className="footer">
           <span className="muted small">© {new Date().getFullYear()} Venkat Ramana</span>
         </footer>
+        <Analytics />
       </main>
     </div>
   );
