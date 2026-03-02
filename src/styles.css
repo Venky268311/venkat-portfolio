@@ -288,6 +288,10 @@ h1{
   grid-template-columns: repeat(4, 1fr);
   gap:12px;
 }
+.postMeta{
+  color:var(--muted);
+  font-size:12px;
+}
 @media (max-width: 1000px){
   .contactGrid{grid-template-columns:1fr;}
 }

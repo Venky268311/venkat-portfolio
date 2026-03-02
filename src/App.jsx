@@ -1,5 +1,5 @@
 import "./styles.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import {FaUser, 
 FaCode, 
@@ -147,6 +147,8 @@ const PROJECTS = [
 }
 ];
 
+const MEDIUM_TAGS = ["java", "reactjs", "react-native", "technology"];
+
 function Badge({ children }) {
   return <span className="badge">{children}</span>;
 }
@@ -179,8 +181,125 @@ function Card({ title, meta, children }) {
 
 export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mediumPosts, setMediumPosts] = useState([]);
+  const [postsLoading, setPostsLoading] = useState(true);
+  const [postsError, setPostsError] = useState("");
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const parseMediumXml = (xmlText, tag) => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(xmlText, "application/xml");
+
+      return Array.from(doc.querySelectorAll("item")).map((item) => ({
+        title: item.querySelector("title")?.textContent || "Untitled",
+        link: item.querySelector("link")?.textContent || "",
+        pubDate: item.querySelector("pubDate")?.textContent || "",
+        tag,
+      }));
+    };
+
+    const fetchViaPublicFeeds = async () => {
+      const feeds = MEDIUM_TAGS.map((tag) =>
+        `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(
+          `https://medium.com/feed/tag/${tag}`
+        )}&count=4`
+      );
+
+      const responses = await Promise.all(feeds.map((url) => fetch(url)));
+      const jsonList = await Promise.all(
+        responses.map(async (response) => {
+          if (!response.ok) {
+            throw new Error("rss2json request failed");
+          }
+          return response.json();
+        })
+      );
+
+      let merged = jsonList.flatMap((feed, index) => {
+        const tag = MEDIUM_TAGS[index];
+        return (feed.items || []).map((item) => ({
+          title: item.title,
+          link: item.link,
+          pubDate: item.pubDate,
+          tag,
+        }));
+      });
+
+      if (merged.length === 0) {
+        const fallbackFeeds = await Promise.all(
+          MEDIUM_TAGS.map(async (tag) => {
+            const mediumRssUrl = `https://medium.com/feed/tag/${tag}`;
+            const fallbackUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(mediumRssUrl)}`;
+            const response = await fetch(fallbackUrl);
+            if (!response.ok) {
+              throw new Error("fallback feed request failed");
+            }
+            const xmlText = await response.text();
+            return parseMediumXml(xmlText, tag);
+          })
+        );
+        merged = fallbackFeeds.flat();
+      }
+
+      return merged;
+    };
+
+    const fetchMediumPosts = async () => {
+      setPostsLoading(true);
+      setPostsError("");
+
+      try {
+        let merged = [];
+        try {
+          const apiResponse = await fetch("/api/medium-posts");
+          if (apiResponse.ok) {
+            const apiData = await apiResponse.json();
+            merged = apiData.posts || [];
+          } else {
+            merged = await fetchViaPublicFeeds();
+          }
+        } catch (apiError) {
+          merged = await fetchViaPublicFeeds();
+        }
+
+        const deduped = [];
+        const seen = new Set();
+        for (const item of merged) {
+          if (item.link && !seen.has(item.link)) {
+            seen.add(item.link);
+            deduped.push(item);
+          }
+        }
+
+        deduped.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+        if (isMounted) {
+          setMediumPosts(deduped.slice(0, 8));
+          if (deduped.length === 0) {
+            setPostsError("No Medium posts found for selected topics right now.");
+          }
+        }
+      } catch (error) {
+        if (isMounted) {
+          setPostsError("Could not load Medium posts right now.");
+        }
+      } finally {
+        if (isMounted) {
+          setPostsLoading(false);
+        }
+      }
+    };
+
+    fetchMediumPosts();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <div className="page">
@@ -212,6 +331,7 @@ export default function App() {
             <a href="#education" onClick={closeMobileMenu}>Education</a>
             <a href="#projects" onClick={closeMobileMenu}>Projects</a>
             <a href="#experience" onClick={closeMobileMenu}>Experience</a>
+            <a href="#posts" onClick={closeMobileMenu}>Posts</a>
             <a href="#awards" onClick={closeMobileMenu}>Awards</a>
             <a href="#contact" onClick={closeMobileMenu}>Contact</a>
           </nav>
@@ -404,6 +524,31 @@ I also have hands-on experience with AWS cloud services, CI/CD pipelines, and De
 
   </div>
 </Section>
+
+        <Section
+          id="posts"
+          title={<><FaCode style={{marginRight:"5px", color:"#38bdf8"}}/> Latest Tech Posts</>}
+          subtitle="Live Medium feed for Java Full Stack, React, React Native, and technology topics."
+        >
+          <div className="card">
+            <h3 className="cardTitle">Medium (Live)</h3>
+            {postsLoading ? <p className="muted">Loading Medium posts...</p> : null}
+            {postsError ? <p className="muted">{postsError}</p> : null}
+            {!postsLoading && !postsError ? (
+              <ul className="bullets">
+                {mediumPosts.map((post) => (
+                  <li key={post.link}>
+                    <a href={post.link} target="_blank" rel="noreferrer">{post.title}</a>
+                    <span className="postMeta"> ({post.tag})</span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+            {!postsLoading && !postsError && mediumPosts.length === 0 ? (
+              <p className="muted">No recent Medium posts available at the moment.</p>
+            ) : null}
+          </div>
+        </Section>
 
         {/* CONTACT */}
         <Section
