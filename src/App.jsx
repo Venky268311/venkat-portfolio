@@ -148,6 +148,7 @@ const PROJECTS = [
 ];
 
 const MEDIUM_TAGS = ["java", "reactjs", "react-native", "technology"];
+const MEDIUM_CACHE_KEY = "mediumPostsCacheV1";
 
 function Badge({ children }) {
   return <span className="badge">{children}</span>;
@@ -189,6 +190,7 @@ export default function App() {
 
   useEffect(() => {
     let isMounted = true;
+    const todayKey = new Date().toISOString().slice(0, 10);
 
     const parseMediumXml = (xmlText, tag) => {
       const parser = new DOMParser();
@@ -253,6 +255,26 @@ export default function App() {
       setPostsError("");
 
       try {
+        const cachedRaw = localStorage.getItem(MEDIUM_CACHE_KEY);
+        if (cachedRaw) {
+          const cached = JSON.parse(cachedRaw);
+          if (
+            cached?.date === todayKey &&
+            Array.isArray(cached.posts) &&
+            cached.posts.length > 0
+          ) {
+            if (isMounted) {
+              setMediumPosts(cached.posts);
+              setPostsLoading(false);
+            }
+            return;
+          }
+        }
+      } catch (cacheError) {
+        // Ignore cache read errors and continue with network fetch.
+      }
+
+      try {
         let merged = [];
         try {
           const apiResponse = await fetch("/api/medium-posts");
@@ -278,7 +300,14 @@ export default function App() {
         deduped.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
 
         if (isMounted) {
-          setMediumPosts(deduped.slice(0, 8));
+          const todayPosts = deduped.slice(0, 8);
+          setMediumPosts(todayPosts);
+          if (todayPosts.length > 0) {
+            localStorage.setItem(
+              MEDIUM_CACHE_KEY,
+              JSON.stringify({ date: todayKey, posts: todayPosts })
+            );
+          }
           if (deduped.length === 0) {
             setPostsError("No Medium posts found for selected topics right now.");
           }
