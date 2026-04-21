@@ -28,6 +28,17 @@ const SKILLS = [
 
 const EXPERIENCE = [
   {
+    company: "JPMorganChase",
+    title: "Java Developer",
+    time: "Feb 2026 - Present",
+    bullets: [
+      "Developing, testing, maintaining, and debugging enterprise applications in an Agile delivery environment.",
+      "Designing and coding backend solutions using Core Java, J2EE, XML, Web Services, and RESTful APIs.",
+      "Building RESTful microservices using Spring, Spring Batch, Spring Boot, JPA, and related Java technology stacks.",
+      "Applying strong application design and coding practices to improve reliability, maintainability, and production support."
+    ],
+  },
+  {
     company: "Comcast",
     title: "Java Full Stack Developer",
     time: "Jul 2025 – Feb 2026",
@@ -377,6 +388,7 @@ export default function App() {
         <section className="hero">
           <div className="heroLeft">
             <p className="pill">Spring Boot • React • AWS • Microservices</p>
+            <p className="currentRole">Java Developer @ JPMC</p>
             <h1>
               I build scalable, reliable <span className="accent">full-stack</span> products.
             </h1>

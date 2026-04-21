@@ -151,6 +151,13 @@ a{color:inherit}
   width:fit-content;
 }
 
+.currentRole{
+  margin:12px 0 0;
+  color:var(--accent);
+  font-size:15px;
+  font-weight:700;
+}
+
 h1{
   margin:14px 0 10px;
   font-size:44px;
