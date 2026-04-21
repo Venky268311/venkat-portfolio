@@ -12,8 +12,8 @@ FaEnvelopeOpenText, FaPhone, FaEnvelope, FaLinkedin, FaFileDownload, FaMapMarker
 
 const LINKS = {
   email: "ramana268311@gmail.com",
-  phone: "+1 (901) 515-0503",
-  location: "Pittsburgh, PA",
+  phone: "+1 (412) 294-8543",
+  location: "Newark, DE",
   github: "https://github.com/Venky268311",      // <- update
   linkedin: "https://www.linkedin.com/in/venkat-ramana-mankena/", // <- update
   resumeUrl: "/VENKAT_RAMANA_MANKENA_SE_1.pdf",  // place PDF in /public
