@@ -30,7 +30,7 @@ const EXPERIENCE = [
   {
     company: "Comcast",
     title: "Java Full Stack Developer",
-    time: "Jul 2025 – Present",
+    time: "Jul 2025 – Feb 2026",
     bullets: [
       "Built scalable web apps using Java, Spring Boot, and React.js with clean client–server integration.",
       "Designed RESTful APIs across microservices, improving data retrieval and response time (reported ~25%).",
@@ -381,7 +381,7 @@ export default function App() {
               I build scalable, reliable <span className="accent">full-stack</span> products.
             </h1>
             <p className="heroText">
-              7+ years building web & mobile apps with Java, Spring Boot, React.js, and cloud tooling.
+              6+ years building web & mobile apps with Java, Spring Boot, React.js, and cloud tooling.
               Strong on APIs, performance, and clean engineering practices.
             </p>
 
@@ -400,7 +400,7 @@ export default function App() {
           <div className="heroRight">
             <div className="statGrid">
               <div className="statCard">
-                <div className="statNum">7+</div>
+                <div className="statNum">6+</div>
                 <div className="muted">Years Experience</div>
               </div>
               <div className="statCard">
@@ -432,7 +432,7 @@ export default function App() {
           <div className="">
             <div>
               <p>
-                I’m a Java Full Stack Developer with 7+ years of experience designing and delivering scalable web and mobile applications using Java, Spring Boot, Hibernate/JPA, and modern frontend technologies like React.js and React Native. I specialize in building end-to-end full stack solutions, developing microservices-based architectures, and creating responsive web and mobile applications that provide seamless user experiences.
+                I’m a Java Full Stack Developer with 6+ years of experience designing and delivering scalable web and mobile applications using Java, Spring Boot, Hibernate/JPA, and modern frontend technologies like React.js and React Native. I specialize in building end-to-end full stack solutions, developing microservices-based architectures, and creating responsive web and mobile applications that provide seamless user experiences.
 <br></br><br></br>
 On the backend, I focus on designing secure and scalable RESTful APIs, optimizing database performance, and building reliable microservices using Spring Boot and cloud technologies. On the frontend, I develop dynamic and high-performance user interfaces using React.js and build cross-platform mobile applications using React Native to ensure consistent experiences across web, Android, and iOS platforms.
 <br></br><br></br>
