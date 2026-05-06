@@ -5,6 +5,7 @@ import {FaUser,
 FaCode, 
 FaProjectDiagram, 
 FaBriefcase, 
+FaBuilding,
 FaGraduationCap, 
 FaTrophy, 
 FaEnvelopeOpenText, FaPhone, FaEnvelope, FaLinkedin, FaFileDownload, FaMapMarkerAlt, FaBars, FaTimes } from "react-icons/fa";
@@ -30,6 +31,8 @@ const EXPERIENCE = [
   {
     company: "JPMorganChase",
     title: "Java Developer",
+    startDate: "2026-02-26",
+    endDate: null,
     time: "Feb 2026 - Present",
     bullets: [
       "Developing, testing, maintaining, and debugging enterprise applications in an Agile delivery environment.",
@@ -41,6 +44,8 @@ const EXPERIENCE = [
   {
     company: "Comcast",
     title: "Java Full Stack Developer",
+    startDate: "2025-07-21",
+    endDate: "2026-02-23",
     time: "Jul 2025 – Feb 2026",
     bullets: [
       "Built scalable web apps using Java, Spring Boot, and React.js with clean client–server integration.",
@@ -52,6 +57,8 @@ const EXPERIENCE = [
   {
     company: "Infosys (Client: Comcast)",
     title: "Java Full Stack Developer",
+    startDate: "2024-09-02",
+    endDate: "2025-07-02",
     time: "Sep 2024 – Jul 2025",
     bullets: [
       "Built broadband management features using Spring Boot (backend) and React.js (frontend).",
@@ -63,6 +70,8 @@ const EXPERIENCE = [
   {
     company: "Prodapt Solutions Pvt. Ltd.",
     title: "Senior Software Engineer",
+    startDate: "2021-09-30",
+    endDate: "2022-12-20",
     time: "Sep 2021 – Dec 2022",
     bullets: [
       "Designed microservices architecture for chatbot applications using Spring Boot/Spring Cloud.",
@@ -74,6 +83,8 @@ const EXPERIENCE = [
   {
 company: "Prodigy Group India Pvt. Ltd.",
 title: "UI Developer",
+startDate: "2018-08-17",
+endDate: "2021-09-18",
 time: "Aug 2018 – Sep 2021",
 bullets: [
 "Developed full stack web and mobile applications using Java Spring Boot and React.",
@@ -87,6 +98,8 @@ bullets: [
 {
 company: "R.S Solutions",
 title: "Software Engineer",
+startDate: "2017-06-15",
+endDate: "2018-08-15",
 time: "Jun 2017 – Aug 2018",
 bullets: [
 "Designed and developed responsive user interfaces using HTML5, CSS3, Bootstrap, and JavaScript.",
@@ -160,6 +173,34 @@ const PROJECTS = [
 
 const MEDIUM_TAGS = ["java", "reactjs", "react-native", "technology"];
 const MEDIUM_CACHE_KEY = "mediumPostsCacheV1";
+
+function getExperienceDuration(startDate, endDate) {
+  const start = new Date(startDate);
+  const end = endDate ? new Date(endDate) : new Date();
+
+  let months =
+    (end.getFullYear() - start.getFullYear()) * 12 +
+    (end.getMonth() - start.getMonth());
+
+  if (end.getDate() < start.getDate()) {
+    months -= 1;
+  }
+
+  const safeMonths = Math.max(months, 0);
+  const years = Math.floor(safeMonths / 12);
+  const remainingMonths = safeMonths % 12;
+  const parts = [];
+
+  if (years > 0) {
+    parts.push(`${years} yr${years === 1 ? "" : "s"}`);
+  }
+
+  if (remainingMonths > 0 || parts.length === 0) {
+    parts.push(`${remainingMonths} mo${remainingMonths === 1 ? "" : "s"}`);
+  }
+
+  return parts.join(" ");
+}
 
 function Badge({ children }) {
   return <span className="badge">{children}</span>;
@@ -527,9 +568,19 @@ I also have hands-on experience with AWS cloud services, CI/CD pipelines, and De
             {EXPERIENCE.map((e) => (
               <Card
                 key={e.company + e.time}
-                title={`${e.title} — ${e.company}`}
-                meta={e.time}
+                title={
+                  <>
+                    {e.title} — <FaBuilding className="companyIcon" /> {e.company}
+                  </>
+                }
+                meta={null}
               >
+                <div className="experienceMeta">
+                  <span className="experienceBadge experienceBadgeTime">{e.time}</span>
+                  <span className="experienceBadge experienceBadgeDuration">
+                    {getExperienceDuration(e.startDate, e.endDate)} 
+                  </span>
+                </div>
                 <ul className="bullets">
                   {e.bullets.map((b) => <li key={b}>{b}</li>)}
                 </ul>
@@ -626,3 +677,4 @@ I also have hands-on experience with AWS cloud services, CI/CD pipelines, and De
     </div>
   );
 }
+

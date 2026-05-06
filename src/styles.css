@@ -271,6 +271,43 @@ h1{
 .cardTop{display:flex; justify-content:space-between; gap:10px; align-items:flex-start;}
 .cardBody{margin-top:10px;}
 
+.companyIcon{
+  margin:0 6px 2px 2px;
+  vertical-align:middle;
+  color:#f59e0b;
+  font-size:14px;
+}
+
+.experienceMeta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.experienceBadge{
+  display:inline-flex;
+  align-items:center;
+  padding:7px 12px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:0.2px;
+  border:1px solid transparent;
+}
+
+.experienceBadgeTime{
+  color:#bfdbfe;
+  background:rgba(59,130,246,0.14);
+  border-color:rgba(96,165,250,0.35);
+}
+
+.experienceBadgeDuration{
+  color:#d9f99d;
+  background:rgba(132,204,22,0.14);
+  border-color:rgba(163,230,53,0.35);
+}
+
 .bullets{margin:0; padding-left:18px; color:var(--muted); line-height:1.6;}
 .bullets li{margin:6px 0;}
 
@@ -324,4 +361,6 @@ h1{
   .hero{
     padding: 0px;
   }
+ 
+ 
 }
